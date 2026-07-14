@@ -264,10 +264,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#executive-summary" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Executive Summary
+        Summary
       
     </span>
   </a>
@@ -287,32 +287,32 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#environment-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment Components
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#design-rationale" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Design Rationale
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#diagram" class="md-nav__link">
     <span class="md-ellipsis">
       
         Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-setup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup &amp; Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Choices
       
     </span>
   </a>
@@ -425,17 +425,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#findings-lessons-learned-lab-wide" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Findings &amp; Lessons Learned (Lab-Wide)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -474,25 +463,179 @@
 <h1 id="soc-detection-lab">SOC Detection Lab<a class="headerlink" href="#soc-detection-lab" title="Permanent link">&para;</a></h1>
 <p><em>Simulating and detecting real-world attack techniques in a self-built Active Directory environment</em></p>
 <hr />
-<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This lab is a self-hosted Security Operations Center (SOC) environment built to simulate an enterprise Active Directory network, ingest logs into a centralized SIEM, and map detection against real MITRE ATT&amp;CK techniques. The environment includes a Windows Server 2022 Domain Controller populated with a realistic AD structure (using BadBlood), a domain-joined Windows 10 endpoint, a pfSense gateway/firewall, and a Splunk Enterprise deployment for log aggregation and detection activities.</p>
+<p>Using Atomic Red Team, I simulated MITRE ATT&amp;CK techniques such as Kerberoasting (T1558.003) and Credential Dumping (T1003) against the environment and built Splunk detection queries to identify and investigate each technique.</p>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
-<h3 id="environment-components">Environment Components<a class="headerlink" href="#environment-components" title="Permanent link">&para;</a></h3>
-<h3 id="design-rationale">Design Rationale<a class="headerlink" href="#design-rationale" title="Permanent link">&para;</a></h3>
 <h3 id="diagram">Diagram<a class="headerlink" href="#diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="assets/screenshots/soc_lab_network_architecture.png" /></p>
+<h3 id="environment-setup-verification">Environment Setup &amp; Verification<a class="headerlink" href="#environment-setup-verification" title="Permanent link">&para;</a></h3>
+<p>This is the pfSense showing the WAN and LAN interface configuration. </p>
+<p><img alt="" src="assets/screenshots/2026-07-13-221049.png" /></p>
+<p>Here, I confirmed the static IP address I set for the AD Domain Controller and tested the connectivity with the pfSense gateway.</p>
+<p><img alt="" src="assets/screenshots/2026-07-14-001455.png" /></p>
+<p>On the Windows 10 that joined the DC, I also checked the IP, connectivity with the pfSense Default Gateway and the confirmation of domain membership (<code>soclab.com</code>).</p>
+<p><img alt="" src="assets/screenshots/2026-07-14-002536.png" /></p>
+<p>On the Splunk host (SOC-Ubuntu), I ran the same network connectivity as the previous VMs.</p>
+<p><img alt="" src="assets/screenshots/2026-07-14-002815.png" /></p>
+<p>On the Active Directory, I checked the AD Users and Computers to confirm that it was populated via BadBlood.</p>
+<p><img alt="" src="assets/screenshots/2026-07-14-001802.png" /></p>
+<h3 id="design-choices">Design Choices<a class="headerlink" href="#design-choices" title="Permanent link">&para;</a></h3>
+<p>All lab hosts sit on an isolated LAN behind pfSense, which let me run offensive tooling (Atomic Red Team) safely without exposing the host network. I also planned to send pfSense logs to the Splunk server for future labs.</p>
+<p>I used BadBlood to populate the AD instead of testing against a default domain since a realistic directory with actual groups and service accounts gives techniques like Kerberoasting something meaningful to target.</p>
 <hr />
 <h2 id="splunk-deployment-log-pipeline">Splunk Deployment &amp; Log Pipeline<a class="headerlink" href="#splunk-deployment-log-pipeline" title="Permanent link">&para;</a></h2>
 <h3 id="forwarder-side-configuration">Forwarder-Side Configuration<a class="headerlink" href="#forwarder-side-configuration" title="Permanent link">&para;</a></h3>
+<p>I downloaded the Windows Splunk universal forwarder from the official website and installed it on the AD Domain Controller. </p>
+<p>Useful link: <a href="https://help.splunk.com/en/splunk-cloud-platform/forward-and-process-data/universal-forwarder-manual/9.4/install-the-universal-forwarder/install-a-windows-universal-forwarder#a19ec22d_68d3_4a7f_b41c_456267545717--en__Install_a_Windows_universal_forwarder_from_an_installer">Install a Windows universal forwarder from an installer</a></p>
+<p>After launching the installer I downloaded, I accepted the License Agreement, kept the default installation option and selected "Next".</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-134333.png" /></p>
+<p>On the Next page, I added a local admin with a password.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-134436.png" /></p>
+<p>Here, I set the Receiving Indexer IP with the Ubuntu VM IP address and used the default port 9997.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-134922.png" /></p>
+<p>The universal forwarder was successfully installed.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-135141.png" /></p>
+<p>I also checked the Windows Services to make sure the Splunk Forwarder was successfully installed and running.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-135217.png" /></p>
+<p>Next, I set up the <code>C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf</code> file to collect Windows security, Application, System and Sysmon logs using this configuration.</p>
+<p><code>C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[WinEventLog://Security]</span>
+<span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">start_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">oldest</span>
+<span class="na">current_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">windows</span>
+<span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+
+<span class="c1"># Collect Standard Windows Application Logs</span>
+<span class="k">[WinEventLog://Application]</span>
+<span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">start_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">oldest</span>
+<span class="na">current_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">windows</span>
+<span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+
+<span class="c1"># Collect Standard Windows System Logs</span>
+<span class="k">[WinEventLog://System]</span>
+<span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">start_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">oldest</span>
+<span class="na">current_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">windows</span>
+<span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+
+<span class="k">[WinEventLog://Microsoft-Windows-Sysmon/Operational]</span>
+<span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">sysmon</span>
+<span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</code></pre></div>
+<p>The <code>C:\Program Files\SplunkUniversalForwarder\etc\system\local\outputs.conf</code> also has the correct config info related to the Splunk client.</p>
+<p><code>outputs.conf</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[tcpout]</span>
+<span class="na">defaultGroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">default-autolb-group</span>
+
+<span class="k">[tcpout:default-autolb-group]</span>
+<span class="na">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">192.168.2.203:9997</span>
+
+<span class="k">[tcpout-server://192.168.2.203:9997]</span>
+</code></pre></div>
+<p>I also checked my active forwards using the command:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Check active Splunk forwards</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">&amp;</span> <span class="s2">&quot;C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe&quot;</span> <span class="n">list</span> <span class="n">forward-server</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-09-185057.png" /></p>
 <h3 id="windows-audit-policy-changes-required">Windows Audit Policy Changes Required<a class="headerlink" href="#windows-audit-policy-changes-required" title="Permanent link">&para;</a></h3>
+<p>Since I will be running the Kerberoasting technique test, I enabled the necessary Audit logs in the Local Security Policy on the AD Domain Controller.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-162039.png" /></p>
 <h3 id="server-side-configuration">Server-Side Configuration<a class="headerlink" href="#server-side-configuration" title="Permanent link">&para;</a></h3>
+<p>I downloaded Splunk Enterprise on the Ubuntu VM using <code>wget</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Download Splunk Enterprise</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>wget<span class="w"> </span>-O<span class="w"> </span>splunk-10.4.1-5a009d941268-linux-amd64.deb<span class="w"> </span><span class="s2">&quot;https://download.splunk.com/products/splunk/releases/10.4.1/linux/splunk-10.4.1-5a009d941268-linux-amd64.deb&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-08-123958.png" /></p>
+<p>After installing the package, I started Splunk and accepted the license, which prompted me to create the admin account on first run.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Start Splunk Enterprise and enable boot-start</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>sudo<span class="w"> </span>/opt/splunk/bin/splunk<span class="w"> </span>start<span class="w"> </span>--accept-license<span class="w"> </span>--run-as-root
+sudo<span class="w"> </span>/opt/splunk/bin/splunk<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>boot-start
+</code></pre></div></td></tr></table></div>
+<p>The <code>--run-as-root</code> is required to run Splunk with root privileges.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-125635.png" /></p>
+<p>Splunk started the web interface at <code>http://SOC-Ubuntu:8000</code>.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-131215.png" /></p>
+<p>I opened the given web interface and logged into the Splunk web UI.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-131500.png" /></p>
+<p>This confirmed the Splunk Enterprise instance was up and reachable through the web interface.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-131548.png" /></p>
+<p>Under Settings &gt; Forwarding and receiving, I configured Splunk to receive data on the default port 9997. The same port was used when setting up the receiver on the Windows AD.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-140311.png" /></p>
+<p>I then created two custom indexes, <code>windows</code> and <code>sysmon</code>, to separate Windows Event Log data from Sysmon telemetry.</p>
+<p><img alt="" src="assets/screenshots/2026-07-08-151411.png" /></p>
+<p>I checked <code>_internal</code> metrics to confirm the forwarders were actively connected to the indexer.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Verify forwarder connections</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>index=_internal source=*metrics.log group=tcpin_connections
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-08-155606.png" /></p>
+<p>I also ran a broad search against the Domain Controller's hostname to confirm its data was landing in the correct indexes.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Verify indexed data by host</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>index=* host=&quot;WIN-HRNQILM66U8&quot;
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-09-192132.png" /></p>
+<p>Finally, I installed the Splunk Add-on for Microsoft Windows, which is required for field-level extraction (<code>EventCode</code>, <code>Account_Name</code>, etc.) on the indexed Windows data.</p>
+<p><img alt="" src="assets/screenshots/2026-07-09-200204.png" /></p>
 <h3 id="lessons-learned-setup">Lessons Learned (Setup)<a class="headerlink" href="#lessons-learned-setup" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Config filenames are exact-match</strong> — I named one config file <code>input.conf</code> instead of <code>inputs.conf</code> which was silently ignored by Splunk, with no error raised. I spent some time figuring out how I could confirm the connection between the Splunk forwarder on the Windows AD and the Splunk Client, with no log sent.</li>
+<li><strong>Field extraction requires the Windows Add-on</strong> — to easily perform searches on the data collected by Splunk, the Splunk Add-on for Microsoft Windows is a must.</li>
+</ul>
 <hr />
 <h2 id="attack-simulation-detection">Attack Simulation &amp; Detection<a class="headerlink" href="#attack-simulation-detection" title="Permanent link">&para;</a></h2>
 <h3 id="kerberoasting-t1558003">Kerberoasting (T1558.003)<a class="headerlink" href="#kerberoasting-t1558003" title="Permanent link">&para;</a></h3>
+<p>Before running any attack simulations, I installed AtomicRedTeam on the Windows AD Domain Controller and made sure the Splunk Forwarder was running so the activity would actually be captured.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Install Invoke-AtomicRedTeam</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">net</span> <span class="nb">start </span><span class="n">SplunkForwarder</span>
+<span class="nb">IEX </span><span class="p">(</span><span class="nb">IWR </span><span class="s1">&#39;https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1&#39;</span> <span class="n">-UseBasicParsing</span><span class="p">);</span> <span class="nb">Install-AtomicRedTeam</span> <span class="n">-getAtomics</span> <span class="n">-Force</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-08-153755.png" /></p>
+<p>I then ran the Kerberoasting atomic test using the command below. Some tests did not succeed, but I got enough logs for my investigation.</p>
+<p>Find more about <a href="https://attack.mitre.org/techniques/T1558/003/">T1558.003 - Kerberoasting</a>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Run Kerberoasting atomic test</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">Invoke-AtomicTest</span> <span class="n">T1558</span><span class="p">.</span><span class="n">003</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-08-161316.png" /></p>
+<p>I searched for logs about Event ID 4769 (Kerberos Service Ticket Operations) and got some results. I filtered the log to a time range of last 4 hours to not miss any data.</p>
+<p>I also noticed some service tickets requested with <code>TicketEncryptionType=0x17 (RC4)</code> instead of the current types <code>0x11/0x12 (AES128/AES256)</code>. This indicates Kerberoasting activities.</p>
+<p>Useful ticket encryption type link: <a href="https://system32.eventsentry.com/codes/field/Kerberos%20Encryption%20Types">Kerberos Encryption Types</a></p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Search for Kerberos service ticket requests</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>index=&quot;windows&quot; EventCode=4769 host=&quot;WIN-HRNQILM66U8&quot;
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-09-202731.png" />
+<img alt="" src="assets/screenshots/2026-07-09-205504.png" /></p>
+<p>I refined the search into a table and noticed that the <code>Administrator@SOCLAB.COM</code> account requested tickets for a long list of unrelated service accounts in rapid succession, almost all using RC4 (0x17). This is a proof of a tool enumerating and roasting every Service Principal Name (SPN) in the domain.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Refine Kerberoasting detection query</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>index=&quot;windows&quot; EventCode=4769 host=&quot;WIN-HRNQILM66U8&quot; | table _time, TargetUserName, ServiceName, TicketEncryptionType | sort -_time
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-09-210045.png" /></p>
 <h3 id="credential-dumping-t1003">Credential Dumping (T1003)<a class="headerlink" href="#credential-dumping-t1003" title="Permanent link">&para;</a></h3>
-<hr />
-<h2 id="findings-lessons-learned-lab-wide">Findings &amp; Lessons Learned (Lab-Wide)<a class="headerlink" href="#findings-lessons-learned-lab-wide" title="Permanent link">&para;</a></h2>
+<p>I ran the specific Credential Dumping atomic tests — some tests failed, but I got enough data for my investigation.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Run Credential Dumping atomic tests</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">Invoke-AtomicTest</span> <span class="n">T1003</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-13-100537.png" /></p>
+<p>Looking at the process chain this generated, Sysmon first tagged an earlier step as <code>technique_id=T1055.001, technique_name=Dynamic-link Library Injection</code>: <code>powershell.exe</code> injected into <code>rundll32.exe</code>, before <code>rundll32.exe</code> targeted <code>svchost.exe</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Inspect the DLL injection / credential dumping chain</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>index=* host=&quot;WIN-HRNQILM66U8&quot; EventCode=10 | table _time, _raw, TargetImage
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-13-101224.png" />
+<img alt="" src="assets/screenshots/2026-07-13-102559.png" /></p>
+<p>That chain continued into the credential dumping step itself: <code>rundll32.exe</code> accessing <code>svchost.exe</code> with full access, running as <code>NT AUTHORITY\SYSTEM</code> and tagged directly as <code>technique_id=T1003, technique_name=Credential Dumping</code>.</p>
+<p><img alt="" src="assets/screenshots/2026-07-13-101107.png" /></p>
+<p>I ran a new search to pull the command lines which confirmed that <code>rundll32.exe</code> invoked <code>comsvcs.dll</code>'s <code>MiniDump</code> export against a process, writing the output to <code>svchost-exe.dmp</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Pull command lines for rundll32.exe</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>index=* host=&quot;WIN-HRNQILM66U8&quot; EventCode=1 | search Image=&quot;*rundll32.exe*&quot; | table _time, CommandLine, ParentImage
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Key command lines observed</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>rundll32.exe C:\windows\System32\comsvcs.dll MiniDump 8 C:\Users\ADMINI~1\AppData\Local\Temp\svchost-exe.dmp full
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="assets/screenshots/2026-07-13-103426.png" /></p>
+<!-- ---
+
+## Findings & Lessons Learned (Lab-Wide) -->
+
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Test more MITRE ATT&amp;CK techniques and investigate them.</li>
+<li>Forward the pfSense logs to Splunk.</li>
+<li>Test on the Windows 10 computer that joins the AD.</li>
+</ul>
 
 
 
