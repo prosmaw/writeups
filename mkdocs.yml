@@ -1,0 +1,30 @@
+site_name: SOC Detection Lab
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: black
+    accent: green
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - toc.integrate
+    - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - SOC Detection Lab: index.md
