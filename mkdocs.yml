@@ -26,5 +26,17 @@ markdown_extensions:
   - toc:
       permalink: true
 
+extra:
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/prosperamebe
+      name: X (Twitter)
+    - icon: fontawesome/brands/github
+      link: https://github.com/prosmaw
+      name: GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/yao-prosper-amebe/
+      name: LinkedIn
+
 nav:
   - SOC Detection Lab: index.md
