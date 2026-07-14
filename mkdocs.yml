@@ -1,7 +1,9 @@
 site_name: SOC Detection Lab
+site_url: https://prosmaw.github.io/writeups/
 
 theme:
   name: material
+  custom_dir: overrides
   palette:
     scheme: slate
     primary: black
