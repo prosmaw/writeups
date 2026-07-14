@@ -1,0 +1,19 @@
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #000000;
+  --md-default-bg-color--light: #0a0a0a;
+  --md-default-bg-color--lighter: #0f0f0f;
+  --md-default-fg-color: #c9d1d9;
+  --md-default-fg-color--light: #9aa4af;
+
+  --md-primary-fg-color: #22c55e;
+  --md-primary-bg-color: #050705;
+
+  --md-accent-fg-color: #4ade80;
+  --md-typeset-a-color: #4ade80;
+
+  --md-code-bg-color: #050505;
+  --md-code-fg-color: #c9d1d9;
+
+  --md-footer-bg-color: #000000;
+  --md-footer-bg-color--dark: #000000;
+}

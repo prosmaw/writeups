@@ -1,0 +1,40 @@
+:root,
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #0a0a0a !important;
+  --md-default-bg-color--light: #0f0f0f !important;
+  --md-default-bg-color--lighter: #141414 !important;
+  --md-default-fg-color: #c9d1d9 !important;
+  --md-default-fg-color--light: #9aa4af !important;
+
+  /* Header bar matches the page background instead of a solid fill,
+     with green carrying the logo/title text for contrast. */
+  --md-primary-fg-color: #0a0a0a !important;
+  --md-primary-bg-color: #4ade80 !important;
+
+  --md-accent-fg-color: #4ade80 !important;
+  --md-typeset-a-color: #4ade80 !important;
+
+  --md-code-bg-color: #050505 !important;
+  --md-code-fg-color: #c9d1d9 !important;
+
+  --md-footer-bg-color: #0a0a0a !important;
+  --md-footer-bg-color--dark: #0a0a0a !important;
+}
+
+.md-header {
+  border-bottom: 1px solid #1a2e1a;
+}
+
+/* Code block titles (superfences `title="..."`) stand out from body text */
+.md-typeset .highlight span.filename {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+/* Heading titles (#, ##, ###, ####) stand out from body text */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: #4ade80;
+}
