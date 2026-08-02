@@ -23,7 +23,7 @@
     
     
       
-        <title>Insider Threat IR Lab - Security Writeups</title>
+        <title>Insider Threat IR Lab - Prosmaw's Security Writeups</title>
       
     
     
@@ -59,7 +59,7 @@
     
   
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Security Writeups">
+  <meta property="og:title" content="Prosmaw's Security Writeups">
   <meta property="og:description" content="Hands-on security lab writeups: building environments, simulating attacks, and detecting/investigating them.">
   <meta property="og:image" content="https://prosmaw.github.io/writeups/assets/screenshots/soc-detection-lab/soc_lab_network_architecture.png">
   <meta property="og:url" content="https://prosmaw.github.io/writeups/insider-threat-ir/">
@@ -99,7 +99,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Security Writeups" class="md-header__button md-logo" aria-label="Security Writeups" data-md-component="logo">
+    <a href=".." title="Prosmaw&#39;s Security Writeups" class="md-header__button md-logo" aria-label="Prosmaw's Security Writeups" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -113,7 +113,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Security Writeups
+            Prosmaw's Security Writeups
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -199,13 +199,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Security Writeups" class="md-nav__button md-logo" aria-label="Security Writeups" data-md-component="logo">
+    <a href=".." title="Prosmaw&#39;s Security Writeups" class="md-nav__button md-logo" aria-label="Prosmaw's Security Writeups" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Security Writeups
+    Prosmaw's Security Writeups
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -465,6 +465,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://prosmaw.github.io/sans-holiday-hack-challenge2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SANS Holiday Hack Challenge 2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -489,14 +516,14 @@
 <p>This project simulates an insider threat investigation at a fictional company, Good Trade, which specializes in finance and consulting. The company runs a centralized Active Directory server that manages all endpoint access, policy, and logging.</p>
 <p>Acting as the incident response team, I followed the <a href="https://csrc.nist.gov/projects/incident-response">NIST Incident Response process</a> to investigate a data leak: enabling the AD audit policies needed to catch file access and removable-media activity, planting a honey file to bait the insider, then using the resulting Windows Security event logs to identify the source of the leak, contain it, and document lessons learned.</p>
 <h2 id="scenario">Scenario<a class="headerlink" href="#scenario" title="Permanent link">&para;</a></h2>
-<p>An executive at Good Trade noticed that internal information was being leaked to competitors and asked the incident response team to investigate the origin of the leak. An insider threat is anyone with legitimate knowledge of an organization — a current or former employee, contractor, or vendor — who uses that access to cause harm, whether through espionage, unauthorized disclosure, or sabotage.</p>
+<p>An executive at Good Trade noticed that internal information was being leaked to competitors and asked the incident response team to investigate the origin of the leak. An insider threat is anyone with legitimate knowledge of an organization such as a current or former employee, contractor, or vendor; who uses that access to cause harm, whether through espionage, unauthorized disclosure, or sabotage.</p>
 <p>The company follows the <a href="https://csrc.nist.gov/projects/incident-response">NIST Incident Response</a> framework: Preparation; Detection and Analysis; Containment, Eradication and Recovery; Post-Incident Activity.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-01.png" /></p>
-<p>At the point this investigation picks up, the leak has already been noticed — an early detection. The next steps are to pin down the source of the leak, contain it, and improve the company's security posture to prevent a repeat.</p>
+<p>The current step of the IR process is an early detection as it has been identified that information is being leaked. The next step is to further investigate for a clear detection of the source of the leak, block the source of leak and improve the current security of the company.</p>
 <hr />
 <h2 id="detection-hands-on-investigation">Detection &amp; Hands-On Investigation<a class="headerlink" href="#detection-hands-on-investigation" title="Permanent link">&para;</a></h2>
 <h3 id="enabling-audit-policies">Enabling Audit Policies<a class="headerlink" href="#enabling-audit-policies" title="Permanent link">&para;</a></h3>
-<p>Before setting a trap, the IR team needed visibility. The first step was enabling the audit policies required to catch file access and removable-storage activity on the AD Domain Controller, each configured to log both successful and failed attempts:</p>
+<p>Before setting the honey file, the IR team needed visibility. The first step was enabling the audit policies required to catch file access and removable-storage activity on the AD Domain Controller, each configured to log both successful and failed attempts:</p>
 <ul>
 <li><strong>Audit File System</strong> — audits user attempts to access file system objects.</li>
 <li><strong>Audit Removable Storage</strong> — audits user attempts to access file system objects on a removable device.</li>
@@ -510,7 +537,7 @@
 <p>The Local Security Policy console confirms all four subcategories are now set to log <strong>Success and Failure</strong>.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-06.png" /></p>
 <h3 id="planting-the-honey-file">Planting the Honey File<a class="headerlink" href="#planting-the-honey-file" title="Permanent link">&para;</a></h3>
-<p>With auditing in place, the IR team created a honey file named <code>New Company Strategy</code> and shared it with a handful of groups that exist in the company — Marketing, Sales, and SecOps — as bait for anyone browsing shares they shouldn't be touching.</p>
+<p>After enabling the audit logs, the IR team created a honey file named <code>New Company Strategy</code>. The file was shared with few groups existing in the company such as Marketing, Sales, and SecOps. </p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-07.png" /></p>
 <p>The file's auditing entries were set so that read/write access from each of these groups would be logged.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-08.png" /></p>
@@ -519,21 +546,21 @@
 <p>The file was shared successfully and made available at <code>\\PARISDC\Users\yamebe\Documents\New Company Strategy.txt</code>.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-10.png" /></p>
 <h3 id="insider-threat-actions">Insider Threat Actions<a class="headerlink" href="#insider-threat-actions" title="Permanent link">&para;</a></h3>
-<p>Shortly after, the honey file was accessed and exfiltrated. From another machine on the network, the file shows up under the shared <code>Documents</code> folder.</p>
+<p>The insider threat had access to the honey file.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-11.png" /></p>
 <p>The insider then copied the file onto a USB flash drive (<code>pros (E:)</code>).</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-12.png" /></p>
 <h3 id="ir-team-investigation">IR Team Investigation<a class="headerlink" href="#ir-team-investigation" title="Permanent link">&para;</a></h3>
 <p>With the bait taken, the IR team went back to the Security event log on the AD Domain Controller to trace what happened.</p>
-<p><strong>Event ID 5145</strong> (Detailed File Share) shows <code>AMEBE\banderson</code> requesting read/write access to the <code>srvsvc</code> share around the time the honey file was accessed.</p>
+<p><strong>Event ID 5145</strong> (Detailed File Share) shows <code>AMEBE\banderson</code> requesting read/write access to a shared network file identified by the Relative Target Name <code>srvsvc</code> around the time the honey file was accessed.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-13.png" /></p>
 <p><strong>Event ID 4663</strong> (File System) confirms the same account, <code>banderson</code>, directly accessing <code>C:\Users\yamebe\Documents\New Company Strategy.txt</code>.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-14.png" /></p>
-<p><strong>Event ID 6416</strong> (Plug and Play) shows a USB flash disk being recognized by <code>banderson</code>'s workstation around the same time — corroborating the earlier screenshot of the file being copied to drive <code>E:</code>.</p>
+<p><strong>Event ID 6416</strong> (Plug and Play) shows a USB flash disk being recognized by <code>banderson</code>'s workstation around the same time, corroborating the earlier screenshot of the file being copied to drive <code>E:</code>.</p>
 <p><img alt="" src="../assets/screenshots/insider-threat-ir/figure-15.png" /></p>
 <p>Useful reference: <a href="https://system32.eventsentry.com">Windows Security Log Event ID 4663</a> and the Windows Security auditing documentation cover what each of these event IDs records.</p>
 <h3 id="ir-report">IR Report<a class="headerlink" href="#ir-report" title="Permanent link">&para;</a></h3>
-<p>Correlating the file-share access (5145), the file-object access (4663), and the USB device connection (6416) — all tied to the same account and the same narrow time window — the investigation concludes that <strong>Broo Anderson</strong> (<code>banderson</code>) is the source of the leak: he was the only account to access the honey file, and he copied it to a USB flash drive shortly after.</p>
+<p>Correlating the file-share access (5145), the file-object access (4663), and the USB device connection (6416) all tied to the same account and the same narrow time window. The investigation concludes that <strong>Broo Anderson</strong> (<code>banderson</code>) is the source of the leak: he was the only account to access the honey file, and he copied it to a USB flash drive shortly after.</p>
 <hr />
 <h2 id="recovery-and-remediation">Recovery and Remediation<a class="headerlink" href="#recovery-and-remediation" title="Permanent link">&para;</a></h2>
 <p>The IR team's containment and remediation actions:</p>
@@ -556,7 +583,6 @@
 <h2 id="work-cited">Work Cited<a class="headerlink" href="#work-cited" title="Permanent link">&para;</a></h2>
 <p>Computer Security Division, Information Technology Laboratory. "Incident Response." <em>CSRC</em>, <a href="https://csrc.nist.gov/projects/incident-response">csrc.nist.gov/projects/incident-response</a>. Accessed 8 Mar. 2026.</p>
 <p>"Defining Insider Threats | CISA." <em>CISA</em>, <a href="https://www.cisa.gov/topics/physical-security/insider-threat-mitigation/defining-insider-threats">www.cisa.gov/topics/physical-security/insider-threat-mitigation/defining-insider-threats</a>. Accessed 8 Mar. 2026.</p>
-<p>Simhadri, Manindra. "What Is Active Directory: Basics of Active Directory." <em>Security Diaries</em>, 18 Feb. 2021, <a href="https://securitydiaries.com/what-is-active-directory-basics-of-active-directory/">securitydiaries.com/what-is-active-directory-basics-of-active-directory</a>.</p>
 
 
 
