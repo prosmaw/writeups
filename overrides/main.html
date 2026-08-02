@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
-  {% set image = config.site_url ~ "assets/screenshots/soc_lab_network_architecture.png" %}
+  {% set image = config.site_url ~ "assets/screenshots/soc-detection-lab/soc_lab_network_architecture.png" %}
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ config.site_name }}">
-  <meta property="og:description" content="{{ config.site_description or 'Simulating and detecting real-world attack techniques in a self-built Active Directory environment' }}">
+  <meta property="og:description" content="{{ config.site_description or 'Hands-on security lab writeups: building environments, simulating attacks, and detecting/investigating them.' }}">
   <meta property="og:image" content="{{ image }}">
   <meta property="og:url" content="{{ page.canonical_url or config.site_url }}">
   <meta name="twitter:card" content="summary_large_image">

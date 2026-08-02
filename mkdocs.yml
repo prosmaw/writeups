@@ -1,4 +1,4 @@
-site_name: SOC Detection Lab
+site_name: Prosmaw's Security Writeups
 site_url: https://prosmaw.github.io/writeups/
 
 theme:
@@ -20,6 +20,8 @@ extra_css:
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight
@@ -41,4 +43,7 @@ extra:
       name: LinkedIn
 
 nav:
-  - SOC Detection Lab: index.md
+  - Welcome: index.md
+  - SOC Detection Lab: soc-detection-lab/index.md
+  - Insider Threat IR Lab: insider-threat-ir/index.md
+  - SANS Holiday Hack Challenge 2025: https://prosmaw.github.io/sans-holiday-hack-challenge2025/
